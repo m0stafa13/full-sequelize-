@@ -22,7 +22,6 @@ export const userSchema = sequelize.define("User", {
     lastName: {
         type: DataTypes.STRING,
         allowNull: false
-
     },
     userName: {
         type: DataTypes.VIRTUAL,

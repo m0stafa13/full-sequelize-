@@ -43,18 +43,34 @@ export const getDate = async () => {
         attributes: {
             exclude: ["email", "password"]  // return all data without email and password 
         },
-
         where: { // to condition 
             [Op.or]: [{ firstName: "taha" }, { email: "fsdf@gmail.com" }] // or to get the data with more than one condition 
             // , [Op.and]: [{ firstName: "taha" }, { email: "fsdf@gmail.com" }] // or to get the data with more than one condition 
             //   firstName: { [Op.like]: "%m%" }  // searching on first name with Op  
             //   id: { [Op.gte]: 11 } // get  all data with id is greater than or equal 11 
-
             //id: 11
-
         },
         //    limit:4  // ====return this item number 
         //  offset: 3,  // ===how many user i will skip or || where i will start 
     })
     return users
 }
+
+// get  data and pagination 
+export const getDatePagination = async (data) => {
+    let { page, limit } = data
+    limit = Number(limit) || 5
+    page = page < 0 || !Number(page) ? 3 : Number(page)
+    let offset = (Number(page) - 1) * limit
+    let { count, rows } = await userSchema.findAndCountAll({
+        limit,
+        offset
+    })
+    return {
+        rows,
+        metaData: {
+            totalCount: count,
+            totalPage: Math.ceil(count / limit)
+        }
+    }
+} 

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, createUserUpsert, getDate } from "./user.service.js";
+import { createUser, createUserUpsert, getDate, getDatePagination } from "./user.service.js";
 
 const router = Router()
 
@@ -16,6 +16,12 @@ router.post("/add-new-user-only", async (req, res) => {
 // get user data 
 router.get("/get-all-users", async (req, res) => {
     const data = await getDate()
+    res.json(data)
+})
+// get user data and getDatePagination
+router.get("/get-all-users-page", async (req, res) => {
+
+    const data = await getDatePagination(req.query)
     res.json(data)
 })
 
