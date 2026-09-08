@@ -1,5 +1,6 @@
 import { Op } from "sequelize"
 import { userSchema } from "../../database/model/user.model.js"
+import { PostModel } from "../../database/model/bost.modle.js"
 
 // create new user 
 export const createUser = async (data) => {
@@ -39,11 +40,16 @@ export const createUserUpsert = async (data) => {
 // get data user 
 export const getDate = async () => {
     let users = await userSchema.findAll({
+        include: {
+            model: PostModel,
+            attributes: {
+                exclude: "deletedAt"
+            }
+        },
         // attributes: ["password"]  == > ti return password only 
         attributes: {
             exclude: ["email", "password", "deletedAt"]  // return all data without email and password 
         },
-
         where: { // to condition 
             //  [Op.or]: [{ firstName: "taha" }, { email: "fsdf@gmail.com" }] // or to get the data with more than one condition 
             // , [Op.and]: [{ firstName: "taha" }, { email: "fsdf@gmail.com" }] // or to get the data with more than one condition 

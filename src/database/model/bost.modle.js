@@ -4,14 +4,13 @@ import { sequelize } from "../connection.js";
 import { userSchema } from "./user.model.js";
 // class 
 export class PostModel extends Model {
-
-    async checkAuthorId(authorId) {
-
-        let user = await userSchema.findByPk(authorId)
-        if (!user) {
-            throw new Error("author id is not found")
-        }
-    }
+    // check author id without relation 
+    // async checkAuthorId(authorId) {
+    //     let user = await userSchema.findByPk(authorId)
+    //     if (!user) {
+    //         throw new Error("author id is not found")
+    //     }
+    // }
 }
 
 PostModel.init({
@@ -39,4 +38,14 @@ PostModel.init({
     timestamps: true
 })
 
-PostModel.sync({})
+
+// relation 
+PostModel.belongsTo(userSchema, {
+    foreignKey: {
+        name: "authorId",
+        allowNull: false
+    },
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE",
+})
+// PostModel.sync({ force: true, alter: true })
