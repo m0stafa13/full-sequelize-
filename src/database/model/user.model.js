@@ -53,6 +53,7 @@ export const userSchema = sequelize.define("User", {
     },
 
 }, {
+    paranoid: true,
     //timestamps :false ,  //==> to not create updated at and created 
     //tableName :"user_table" , //==> if you want to change tha table name  
     validate: {
@@ -61,4 +62,4 @@ export const userSchema = sequelize.define("User", {
 })
 
 //! alter  :true ==> to change in user schema you created before
-userSchema.sync({}) // sync work in connection file  
+userSchema.sync({   }) // sync work in connection file  
